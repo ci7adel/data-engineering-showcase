@@ -41,6 +41,19 @@ docker run -it \
   dpage/pgadmin4
 
 
+
+
+  # Notes
+
+  - I had to create a volume `docker volume create ny_taxy_postgres_data` for the docker files otherwise postgres is giving me an permission error.
+  - To solve this permission error I added to `/etc/wls.conf`
+  ```
+  [automount]
+  options = "metadata,uid=1000,gid=1000,umask=22,fmask=11"
+  ```
+  it seems that the folder was created under my user initially, with that the folder is created under `999:root`
+
+
   ## running script
 
 URL="https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2021-01.csv.gz"
