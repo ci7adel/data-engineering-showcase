@@ -36,6 +36,11 @@ terraform init
 options = "metadata,uid=1000,gid=1000,umask=22,fmask=11"
 ```
 it seems that the folder was created under my user initially, with that the folder is created under `999:root`
+- To upload a file to a vm machine
+```bash
+sftp machine # needs a .ssh/config
+put file # upload a file from the local folder to machine
+```
 
 
 - pgcli -h localhost -p 5432 -u root -d ny_taxy
