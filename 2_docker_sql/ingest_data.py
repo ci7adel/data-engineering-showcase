@@ -32,17 +32,19 @@ def main(params):
     df_iter = pd.read_csv(csv, iterator=True, chunksize=100000)
 
     while True:
-        t_start = time()
-        df = next(df_iter)
-        df.tpep_pickup_datetime = pd.to_datetime(df.tpep_pickup_datetime)
-        df.tpep_dropoff_datetime = pd.to_datetime(df.tpep_dropoff_datetime)
-        df.to_sql(name="yellow_taxi_data", con=engine, if_exists="append")
+        try:
+            t_start = time()
+            df = next(df_iter)
+            df.tpep_pickup_datetime = pd.to_datetime(df.tpep_pickup_datetime)
+            df.tpep_dropoff_datetime = pd.to_datetime(df.tpep_dropoff_datetime)
+            df.to_sql(name="yellow_taxi_data", con=engine, if_exists="append")
 
-        t_end = time()
+            t_end = time()
 
-        print("inserted another chunk, took %.3f second" % (t_end - t_start))
-
-
+            print("inserted another chunk, took %.3f second" % (t_end - t_start))
+        except StopIteration:
+            print("Finished ingesting data")
+            break
 
 if __name__ == '__main__':
     
